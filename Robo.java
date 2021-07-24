@@ -24,7 +24,12 @@ public class Robo extends Elemento implements Serializable {
     }
     
     public Robo(String sNomeImagePNG, int linha, int coluna) {
-        this(sNomeImagePNG);
+        super(sNomeImagePNG);
+        this.mortal = false;
+        this.transponivel = false;
+        this.assassino = true;
+        rand = new Random();    
+        randomNumber = rand.nextInt(4); 
         this.posicao.setPosicao(linha, coluna);
     }
     

@@ -1,37 +1,52 @@
 package Controler;
 
+import Modelo.AbstractFactory;
 import Modelo.ArrowBlock;
 import Modelo.Elemento;
 import Modelo.BlocoMovel;
 import Modelo.Bloco;
+import Modelo.BlueRobot;
 import Modelo.ComLosango;
 import Modelo.Green;
 import Modelo.GreenBreakableMovelBlock;
+import Modelo.GreenRobot;
 import Modelo.GreenStaticBlock;
 import Modelo.Hero;
 import Modelo.ItemColetavel;
+import Modelo.PinkRobot;
 import Modelo.Red;
 import Modelo.StaticBlock;
 import Modelo.Robo;
+import Modelo.Robot;
 import Modelo.SemLosango;
+import Modelo.YellowRobot;
 import java.util.ArrayList;
 
 public class Fase {
     public ArrayList<Elemento> arrayElementos;
     
     private Hero hero;
+    private AbstractFactory InteractibleElement;
+    private Robot RobotP, RobotY, RobotB, RobotG;
     
     // Visto que nossa clase fase eh uma especie de controlador do sistema de fases
     // em conjunto com a classe tela e a classe ControleDeJogo, guardamos alguns
     // "metadados" na classe fase, para que possamos terceirizar algumas funcoes
     private int numColetaveis;
 
-    public Fase() {
+    public Fase(AbstractFactory InteractibleElement) {
         arrayElementos = new ArrayList<> ();
-        
+        this.InteractibleElement = InteractibleElement;
         // Inicializamos o heroi junto com a instancia da classe fase, 
         // visto que sera o mesmo durante todo o jogo.
         hero = new Hero("skooter_hero.png"); // https://www.online-image-editor.com/
+    }
+    
+    public void getRobot(){
+        this.RobotP = (Robot) this.InteractibleElement.createRobot();
+        this.RobotY = (Robot) this.InteractibleElement.createRobot();
+        this.RobotB = (Robot) this.InteractibleElement.createRobot();
+        this.RobotG = (Robot) this.InteractibleElement.createRobot();
     }
        
     public boolean selecionaFase(int qualFase) {
@@ -47,10 +62,10 @@ public class Fase {
                 hero.setColetaveisPegos(0);
                 
                 // Robôs   
-                arrayElementos.add( new Robo("robo_laranja.png", 2, 0) );
-                arrayElementos.add( new Robo("robo_rosa.png", 0, 9) );
-                arrayElementos.add( new Robo("robo_verde.png", 10, 9) );
-                arrayElementos.add( new Robo("robo_azul.png", 10, 1) );
+                arrayElementos.add( new YellowRobot(2, 0) );
+                arrayElementos.add( new PinkRobot(0, 9) );
+                arrayElementos.add( new GreenRobot(10, 9) );
+                arrayElementos.add( new BlueRobot(10, 1) );
                 
                 
                 // Coletaveis
@@ -63,34 +78,34 @@ public class Fase {
                 // Blocos da fase
                 
                 arrayElementos.add(new Bloco("RedSquare.png", 1, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 9, new Red(), new SemLosango()) );
 
                 arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 0, 1, new Green(), new ComLosango("GreenBreakableSquare.png")) );
                 arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 0, 5, new Green(), new ComLosango("GreenBreakableSquare.png")) );
-                arrayElementos.add(new Bloco("GreenBreakableSquare.png", 1, 2, new Green(), new ComLosango("GreenBreakableSquare.png")) );
+                arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 1, 2, new Green(), new ComLosango("GreenBreakableSquare.png")) );
                 arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 1, 8, new Green(), new ComLosango("GreenBreakableSquare.png")) );
                 arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 1, 10, new Green(), new ComLosango("GreenBreakableSquare.png")) );
                 arrayElementos.add(new GreenBreakableMovelBlock("GreenBreakableSquare.png", 2, 1, new Green(), new ComLosango("GreenBreakableSquare.png")) );
@@ -126,10 +141,10 @@ public class Fase {
                 hero.setColetaveisPegos(0);
                 
                 // Robos
-                arrayElementos.add( new Robo("PinkRobot.png", 9, 1) );
-                arrayElementos.add( new Robo("YellowRobot.png", 1, 1) );
-                arrayElementos.add( new Robo("BlueRobot.png", 9, 9) );
-                arrayElementos.add( new Robo("GreenRobot.png", 1, 9 ) );
+                arrayElementos.add( new PinkRobot(9, 1) );
+                arrayElementos.add( new YellowRobot(1, 1) );
+                arrayElementos.add( new BlueRobot(9, 9) );
+                arrayElementos.add( new GreenRobot(1, 9 ) );
                 
                 // Coletaveis
                 arrayElementos.add( new ItemColetavel("Cherry.png", 9, 5) );
@@ -138,22 +153,22 @@ public class Fase {
                 arrayElementos.add( new ItemColetavel("Strawberry.png", 5, 9) );
                 
                 // Blocos
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 1, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 3, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 5, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 1, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 5, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 7, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 7, 9, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 3, new Red(), new SemLosango()) );
-                arrayElementos.add(new StaticBlock("RedSquare.png", 9, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 1, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 3, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 5, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 1, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 5, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 7, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 7, 9, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 3, new Red(), new SemLosango()) );
+                arrayElementos.add(new Bloco("RedSquare.png", 9, 7, new Red(), new SemLosango()) );
                 arrayElementos.add( new ArrowBlock("SetaRight.png", 0, 3) );
                 arrayElementos.add( new ArrowBlock("SetaRight.png", 0, 7) );
                 arrayElementos.add( new ArrowBlock("SetaRight.png", 2, 3) );
@@ -201,10 +216,10 @@ public class Fase {
                 hero.setColetaveisPegos(0);
                 
                 // Robos
-                arrayElementos.add( new Robo("PinkRobot.png", 2, 5) );
-                arrayElementos.add( new Robo("YellowRobot.png", 0, 5) );
-                arrayElementos.add( new Robo("BlueRobot.png", 8, 5) );
-                arrayElementos.add( new Robo("GreenRobot.png", 10, 5) );
+                arrayElementos.add( new PinkRobot(2, 5) );
+                arrayElementos.add( new YellowRobot(0, 5) );
+                arrayElementos.add( new BlueRobot(8, 5) );
+                arrayElementos.add( new GreenRobot(10, 5) );
                 
                 // Coletaveis
                 arrayElementos.add( new ItemColetavel("Sun.png", 5, 0) );
@@ -213,7 +228,7 @@ public class Fase {
                 arrayElementos.add( new ItemColetavel("Flashlight.png", 5, 10) );
                 
                 // Blocos
-                arrayElementos.add( new Bloco("RedMoveableSquare.png", 1, 1, new Red(), new ComLosango("RedMoveableSquare.png")) );
+                arrayElementos.add( new BlocoMovel("RedMoveableSquare.png", 1, 1, new Red(), new ComLosango("RedMoveableSquare.png")) );
                 arrayElementos.add( new BlocoMovel("RedMoveableSquare.png", 1, 2, new Red(), new ComLosango("RedMoveableSquare.png")) );
                 arrayElementos.add( new BlocoMovel("RedMoveableSquare.png", 9, 7, new Red(), new ComLosango("RedMoveableSquare.png")) );
                 arrayElementos.add( new BlocoMovel("RedMoveableSquare.png", 1, 3, new Red(), new ComLosango("RedMoveableSquare.png")) );
@@ -275,10 +290,11 @@ public class Fase {
                 hero.setColetaveisPegos(0);
                 
                 // Robos
-                arrayElementos.add( new Robo("PinkRobot.png", 10, 5) );
-                arrayElementos.add( new Robo("YellowRobot.png", 0, 5) );
-                arrayElementos.add( new Robo("BlueRobot.png", 5, 10) );
-                arrayElementos.add( new Robo("GreenRobot.png", 5, 0) );
+                
+                arrayElementos.add( new PinkRobot(10, 5) );
+                arrayElementos.add( new YellowRobot(0, 5) );
+                arrayElementos.add( new BlueRobot(5, 10) );
+                arrayElementos.add( new GreenRobot(5, 0) );
                 
                 // Coletaveis
                 arrayElementos.add( new ItemColetavel("Sun.png", 0, 0) );
@@ -287,24 +303,24 @@ public class Fase {
                 arrayElementos.add( new ItemColetavel("Flashlight.png", 10, 10) );
                 
                 // Blocos
-                arrayElementos.add( new StaticBlock("RedSquare.png", 0, 3, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 0, 7, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 1, 0, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 1, 8, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 2, 5, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 3, 2, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 3, 10, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 5, 2, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 5, 8, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 6, 3, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 7, 0, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 10, 1, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 8, 1, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 8, 7, new Red(), new SemLosango()) );
-                arrayElementos.add( new StaticBlock("RedSquare.png", 8, 10, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 0, 3, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 0, 7, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 1, 0, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 1, 8, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 2, 5, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 3, 2, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 3, 10, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 5, 2, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 5, 8, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 6, 3, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 7, 0, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 10, 1, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 8, 1, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 8, 7, new Red(), new SemLosango()) );
+                arrayElementos.add( new Bloco("RedSquare.png", 8, 10, new Red(), new SemLosango()) );
 
 
-                Elemento G[] = new GreenStaticBlock[41];
+                Elemento G[] = new Bloco[41];
                 int cont = 0;
 
                 for (int i = 1; i < 10; i++) {
@@ -321,8 +337,8 @@ public class Fase {
                     
                     for (; j < max; j++) {
 
-                        G[cont] = new GreenStaticBlock("GreenSquare.png", new Green(), new SemLosango());
-                        G[cont].setPosicao(i, j);
+                        G[cont] = new Bloco("GreenSquare.png", i, j, new Green(), new SemLosango());
+                        //G[cont].setPosicao(i, j);
                         arrayElementos.add(G[cont]);
                         j++;
 
