@@ -18,6 +18,7 @@ public class Tela extends javax.swing.JFrame implements KeyListener {
     int faseAtual;
     private ControleDeJogo controle;
     private Graphics g2;
+    public InterativosFactory I1;
     
     // Flags de controle de telas especiais (inicio / morte / fim)
     boolean inicio;
@@ -44,7 +45,7 @@ public class Tela extends javax.swing.JFrame implements KeyListener {
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                      Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-        fase = new Fase();
+        fase = new Fase(I1);
         faseAtual = 0;
         fase.selecionaFase(faseAtual);
         // Este array vai guardar os elementos graficos
@@ -197,7 +198,7 @@ public class Tela extends javax.swing.JFrame implements KeyListener {
             case KeyEvent.VK_L -> {
                 // L = reiniciar o jogo, ou seja, retorna a fase 1
                 faseAtual = 0;
-                fase = new Fase();
+                fase = new Fase(I1);
                 
                 inicio = false;
                 acabou = false;
