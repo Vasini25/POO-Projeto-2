@@ -7,6 +7,7 @@ import Modelo.BlocoMovel;
 import Modelo.Bloco;
 import Modelo.BlueRobot;
 import Modelo.ComLosango;
+import Modelo.Facede;
 import Modelo.Green;
 import Modelo.GreenBreakableMovelBlock;
 import Modelo.GreenRobot;
@@ -28,6 +29,7 @@ public class Fase {
     private Hero hero;
     private AbstractFactory InteractibleElement;
     private Robot RobotP, RobotY, RobotB, RobotG;
+    public Facede randColectable;
     
     // Visto que nossa clase fase eh uma especie de controlador do sistema de fases
     // em conjunto com a classe tela e a classe ControleDeJogo, guardamos alguns
@@ -40,6 +42,7 @@ public class Fase {
         // Inicializamos o heroi junto com a instancia da classe fase, 
         // visto que sera o mesmo durante todo o jogo.
         hero = new Hero("skooter_hero.png"); // https://www.online-image-editor.com/
+        randColectable = new Facede();
     }
     
     public void getRobot(){
@@ -70,10 +73,10 @@ public class Fase {
                 
                 // Coletaveis
                 
-                arrayElementos.add( new ItemColetavel("Cherry.png", 10, 10) );
-                arrayElementos.add( new ItemColetavel("Grape.png", 0, 0) );
-                arrayElementos.add( new ItemColetavel("Lemon.png", 0, 10) );
-                arrayElementos.add( new ItemColetavel("Strawberry.png", 10, 0) );
+                arrayElementos.add((Elemento) randColectable.RandomColectable(10, 10));
+                arrayElementos.add((Elemento) randColectable.RandomColectable(0, 0));
+                arrayElementos.add((Elemento) randColectable.RandomColectable(0, 10));
+                arrayElementos.add((Elemento) randColectable.RandomColectable(10, 0));
                 
                 // Blocos da fase
                 
